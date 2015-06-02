@@ -9,7 +9,7 @@ MASON_PKGCONFIG_FILE=lib/pkgconfig/openssl.pc
 
 function mason_load_source {
     mason_download \
-        https://www.openssl.org/source/openssl-1.0.2.tar.gz \
+        ftp://ftp.openssl.org/source/openssl-1.0.2.tar.gz \
         edb5a59838b24d0845950feed47dae014c66b2ab
 
     mason_extract_tar_gz
