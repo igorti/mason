@@ -1,0 +1,7 @@
+/* Generated automatically. */
+static const char configuration_arguments[] = "/Volumes/Toolchain/work/src/gcc-4.9.2/configure --build=x86_64-build_apple-darwin14.4.0 --host=x86_64-build_apple-darwin14.4.0 --target=arm-cortex_a9-linux-gnueabi --prefix=/Volumes/Toolchain/install --with-sysroot=/Volumes/Toolchain/install/arm-cortex_a9-linux-gnueabi/sysroot --enable-languages=c,c++ --with-arch=armv7-a --with-cpu=cortex-a9 --with-tune=cortex-a9 --with-float=softfp --with-pkgversion='crosstool-NG 1.21.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --with-gmp=/Volumes/Toolchain/work/arm-cortex_a9-linux-gnueabi/buildtools --with-mpfr=/Volumes/Toolchain/work/arm-cortex_a9-linux-gnueabi/buildtools --with-mpc=/Volumes/Toolchain/work/arm-cortex_a9-linux-gnueabi/buildtools --with-ppl=no --with-isl=no --with-cloog=no --with-libelf=/Volumes/Toolchain/work/arm-cortex_a9-linux-gnueabi/buildtools --enable-threads=posix --enable-target-optspace --disable-nls --with-local-prefix=/Volumes/Toolchain/install/arm-cortex_a9-linux-gnueabi/sysroot --enable-c99 --enable-long-long";
+static const char thread_model[] = "posix";
+
+static const struct {
+  const char *name, *value;
+} configure_default_options[] = { { "cpu", "cortex-a9" }, { "arch", "armv7-a" }, { "tune", "cortex-a9" }, { "float", "softfp" }, { "tls", "gnu" } };
