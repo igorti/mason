@@ -2,7 +2,7 @@
 
 MASON_NAME=gcc
 MASON_VERSION=4.9.2-cortex_a9
-MASON_LIB_FILE=
+MASON_LIB_FILE=bin/arm-cortex_a9-linux-gnueabi-gcc
 
 . ${MASON_DIR:-~/.mason}/mason.sh
 
