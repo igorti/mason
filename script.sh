@@ -43,7 +43,6 @@ function mason_prepare_compile {
     install_dep jpeg_turbo 1.4.0 libjpeg
     install_dep libpng 1.6.16 libpng
     install_dep geos 3.4.2-custom libgeos
-    install_dep libpq 9.4.0 libpq
     # depends on sudo apt-get install zlib1g-dev
     ${MASON_DIR:-~/.mason}/mason install zlib system
     MASON_ZLIB=$(${MASON_DIR:-~/.mason}/mason prefix zlib system)
@@ -61,25 +60,6 @@ function mason_compile {
     CUSTOM_LIBS="-L${LINK_DIR}/lib -ltiff -ljpeg -lproj -lpng -lgeos"
     CUSTOM_CFLAGS="${CFLAGS} -I${LINK_DIR}/include -I${LINK_DIR}/include/libpng16"
     CUSTOM_CXXFLAGS="${CUSTOM_CFLAGS}"
-
-    # very custom handling for libpq/postgres support
-    # forcing our portable static library to be used
-    MASON_LIBPQ_PATH=${LINK_DIR}/lib/libpq.a
-    if [[ $(uname -s) == 'Linux' ]]; then
-        # on Linux passing -Wl will lead to libtool re-positioning libpq.a in the wrong place (no longer after libgdal.a)
-        # which leads to unresolved symbols
-        CUSTOM_LDFLAGS="-z nodeflib ${LDFLAGS} ${MASON_LIBPQ_PATH}"
-    else
-        # on OSX not passing -Wl will break libtool archive creation leading to confusing arch errors
-        CUSTOM_LDFLAGS="${LDFLAGS} -Wl,${MASON_LIBPQ_PATH}"
-    fi
-    # we have to remove -lpq otherwise it will trigger linking to system /usr/lib/libpq
-    perl -i -p -e "s/\-lpq //g;" configure
-    # on linux -Wl,/path/to/libpq.a still does not work for the configure test
-    # so we have to force it into LIBS. But we don't do this on OS X since it breaks libtool archive logic
-    if [[ $(uname -s) == 'Linux' ]]; then
-        CUSTOM_LIBS="${MASON_LIBPQ_PATH} -pthread ${CUSTOM_LIBS}"
-    fi
 
     # note: we put ${STDLIB_CXXFLAGS} into CXX instead of LDFLAGS due to libtool oddity:
     # http://stackoverflow.com/questions/16248360/autotools-libtool-link-library-with-libstdc-despite-stdlib-libc-option-pass
@@ -110,7 +90,6 @@ function mason_compile {
         --with-libtiff=${LINK_DIR} \
         --with-jpeg=${LINK_DIR} \
         --with-png=${LINK_DIR} \
-        --with-pg=${LINK_DIR}/bin/pg_config \
         --with-static-proj4=${LINK_DIR} \
         --with-spatialite=no \
         --with-geos=yes \
@@ -147,8 +126,7 @@ function mason_compile {
     python -c "data=open('$MASON_PREFIX/bin/gdal-config','r').read();open('$MASON_PREFIX/bin/gdal-config','w').write(data.replace('$MASON_PREFIX','\$( cd \"\$( dirname \$( dirname \"\$0\" ))\" && pwd )'))"
     # fix paths to all deps to point to mason_packages/.link
     python -c "data=open('$MASON_PREFIX/bin/gdal-config','r').read();open('$MASON_PREFIX/bin/gdal-config','w').write(data.replace('$MASON_ROOT','./mason_packages'))"
-    # add static libpq.a
-    python -c "data=open('$MASON_PREFIX/bin/gdal-config','r').read();open('$MASON_PREFIX/bin/gdal-config','w').write(data.replace('CONFIG_DEP_LIBS=\"','CONFIG_DEP_LIBS=\"-lpq'))"
+    
     cat $MASON_PREFIX/bin/gdal-config
 }
 
