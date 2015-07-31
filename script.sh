@@ -42,7 +42,7 @@ function mason_prepare_compile {
     install_dep proj 4.8.0 libproj
     install_dep jpeg_turbo 1.4.0 libjpeg
     install_dep libpng 1.6.16 libpng
-    install_dep expat 2.1.0 libexpat
+    install_dep lib 3.4.2 libgeos
     install_dep libpq 9.4.0 libpq
     # depends on sudo apt-get install zlib1g-dev
     ${MASON_DIR:-~/.mason}/mason install zlib system
@@ -58,7 +58,7 @@ function mason_compile {
     export LIBRARY_PATH=${LINK_DIR}/lib:${LIBRARY_PATH}
 
     cd gdal/
-    CUSTOM_LIBS="-L${LINK_DIR}/lib -ltiff -ljpeg -lproj -lpng -lexpat"
+    CUSTOM_LIBS="-L${LINK_DIR}/lib -ltiff -ljpeg -lproj -lpng -lgeos"
     CUSTOM_CFLAGS="${CFLAGS} -I${LINK_DIR}/include -I${LINK_DIR}/include/libpng16"
     CUSTOM_CXXFLAGS="${CUSTOM_CFLAGS}"
 
@@ -102,7 +102,6 @@ function mason_compile {
         --disable-rpath \
         --with-libjson-c=internal \
         --with-geotiff=internal \
-        --with-expat=${LINK_DIR} \
         --with-threads=yes \
         --with-fgdb=no \
         --with-rename-internal-libtiff-symbols=no \
@@ -114,7 +113,7 @@ function mason_compile {
         --with-pg=${LINK_DIR}/bin/pg_config \
         --with-static-proj4=${LINK_DIR} \
         --with-spatialite=no \
-        --with-geos=no \
+        --with-geos=yes \
         --with-sqlite3=no \
         --with-curl=no \
         --with-xml2=no \
