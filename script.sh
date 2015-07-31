@@ -42,7 +42,7 @@ function mason_prepare_compile {
     install_dep proj 4.8.0 libproj
     install_dep jpeg_turbo 1.4.0 libjpeg
     install_dep libpng 1.6.16 libpng
-    install_dep geos 3.4.2 libgeos
+    install_dep geos 3.4.2-custom libgeos
     install_dep libpq 9.4.0 libpq
     # depends on sudo apt-get install zlib1g-dev
     ${MASON_DIR:-~/.mason}/mason install zlib system
